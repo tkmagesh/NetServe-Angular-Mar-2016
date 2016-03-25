@@ -44,7 +44,7 @@
 	angular
 		.module("ng")
 		.run(function($rootScope){
-			window.scope = $rootScope;
+			indow.scope = $rootScope;
 			scope.calculator = new MathCalculator();
 			
 		});
@@ -62,7 +62,7 @@
 	<input type="button" value="Subtract" ng-click="calculator.subtract()">
 	<input type="button" value="Multiply" ng-click="calculator.multiply()">
 	<input type="button" value="Divide" ng-click="calculator.divide()">
-	<div id="divResult" ng-bind="calculator.result"></div>
+	<div id="divResult" ng-bind="calculator.result | currency:'Rs.'"></div>
 	</div>
 </body>
 </html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bug Tracker</title>
+	<script src="angular.min.js"></script>
+	<style>
+	section{
+		margin-bottom: 10px;
+	}
+	.closed{
+		color : red;
+		text-decoration: line-through;
+		font-style: italic;
+		font-weight: bold;
+	}
+	ol{
+		width: 500px;
+		list-style: none;
+	}
+	li{
+		margin-bottom: 10px;
+		padding: 5px;
+		border : 1px solid gray;
+		background-color: #e7e7e7;
+		border-radius: 5px;
+	}
+	.stats, .bugname{
+		font-size: 18pt;
+	}
+	.bugname{
+		cursor: pointer;
+	}
+	</style>
+	<script>
+		/*
+			Use cases
+			========
+			1. List the bugs
+			2. Add a new bug
+			3. Toggle the closed status of a bug
+			4. Remove the closed bugs
+			5. Display statistics
+			6. Search for the bugs
+			7. Sort the bugs
+			8. Improve bug display
+			9. Persist the bugs in the localStorage
+			10. Display 'created At'
+			11. Persist the bugs in the server
+			12. Categorize the bugs
+		*/
+	</script>
+
+</head>
+<body>
+	<h1>Bug Tracker</h1>
+	<hr>
+	<div class="content">
+		<section class="stats">
+			<span class="closed">2</span>
+			<span> / </span>
+			<span>5</span>
+		</section>
+		<section class="section search">
+			<label for="">Search :</label>
+			<input type="text" name="" id="">
+			<label for="">Is Closed ? :</label>
+			<input type="checkbox" name="" id="">
+			<input type="button" value="Show All">
+		</section>
+		<section class="sort">
+			<label for="">Order By :</label>
+			<input type="text" name="" id="">
+			<label for="">Descending ? :</label>
+			<input type="checkbox" name="" id="">
+		</section>
+		<section class="list">
+			<label for="">Bug :</label>
+			<input type="text" name="" id="">
+			<input type="button" value="Add Bug">
+			<input type="button" value="Remove Closed">
+			<ol>
+				<li><span class="bugname closed">A closed bug</span></li>
+				<li><span class="bugname">An open bug</span></li>
+			</ol>
+		</section>
+	</div>
+</body>
+</html>
