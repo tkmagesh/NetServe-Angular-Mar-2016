@@ -46,6 +46,26 @@
 		.run(function($rootScope){
 			window.scope = $rootScope;
 			scope.calculator = new MathCalculator();
+
+			scope.operator = '';
+			scope.calculate = function(){
+				scope.calculator[scope.operator]();
+/*				switch(scope.operator){
+					case 'add':
+						scope.calculator.add();
+						break;
+					case 'subtract':
+						scope.calculator.subtract();
+						break;
+					case 'multiply':
+						scope.calculator.multiply();
+						break;
+					case 'divide':
+						scope.calculator.divide();
+						break;
+
+				}*/
+			}
 		});
 	
 
@@ -56,14 +76,14 @@
 	<h1>Salary Calculator</h1>
 	<hr>
 	<input type="number" ng-model="calculator.number1">
-	<select >
+	<select ng-model="operator" >
 		<option value="add">Add</option>
 		<option value="subtract">Subtract</option>
 		<option value="divide">Divide</option>
 		<option value="multiply">Multiply</option>
 	</select>
 	<input type="number" ng-model="calculator.number2">
-	<input type="button" value="Calculate">
+	<input type="button" value="Calculate" ng-click="calculate()">
 	<div id="divResult" ng-bind="calculator.result"></div>
 	</div>
 </body>
