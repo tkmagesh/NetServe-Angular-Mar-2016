@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Bug Tracker</title>
 	<script src="angular.min.js"></script>
+	<script src="moment.js"></script>
 	<style>
 	section{
 		margin-bottom: 10px;
@@ -31,6 +32,10 @@
 	.bugname{
 		cursor: pointer;
 	}
+	.datetime{
+		font-style: italic;
+		display : block;
+	}
 	</style>
 	<script>
 		/*
@@ -44,7 +49,19 @@
 			6. Search for the bugs - (done)
 			7. Sort the bugs - (done)
 			8. Improve bug display - (done)
-			9. Persist the bugs in the localStorage
+			9. Persist the bugs in the localStorage - (assignment)
+				window.localStorage
+					- key/value store
+					- value must be a string
+					- use angular.toJson() and angular.fromJson() for serialization and deserialization
+					- apis
+						* setItem(key, value)
+						* getItem(key) // => returns the value
+						* removeItem(key)
+						* key(index)  // => key at index
+						* clear()
+						* length
+
 			10. Display 'created At'
 			11. Persist the bugs in the server
 			12. Categorize the bugs
@@ -57,11 +74,13 @@
 
 		bugTrackerApp.factory("bugOperations", function(defaultBugName){
 			return {
-				create : function(bugName){
+				create : function(id, bugName){
 					bugName = bugName || defaultBugName;
 					return {
+						id : id,
 						name : bugName,
-						isClosed : false
+						isClosed : false,
+						createdAt : new Date()
 					}
 				},
 				toggle : function(bug){
@@ -72,9 +91,10 @@
 
 		bugTrackerApp.controller("bugsController", function($scope, bugOperations){
 			$scope.bugs = [
-				{name : "Data validation failure", isClosed : false},
-				{name : "User authentication is wrong", isClosed : true},
-				{name : "Server communication erratic", isClosed : false},
+				{id : 1, name : "Data validation failure", isClosed : false, createdAt :  new Date(2016, 2, 2)},
+				{id : 2, name : "User authentication is wrong", isClosed : true, createdAt :  new Date(2016, 2, 3)},
+				{id : 3, name : "Server communication erratic", isClosed : false, createdAt :  new Date(2016, 2, 4)},
+				{id : 4, name : "Datetime values are not displayed", isClosed : false, createdAt : new Date("2016-03-26T06:27:43.921Z")}
 			];
 			
 			$scope.addNew = function(newBugName){
@@ -107,6 +127,12 @@
 				return data.length < trimLength ? data : data.substr(0,trimLength) + '...';
 			}
 		});
+		bugTrackerApp.value("momentApi", moment);
+		bugTrackerApp.filter("elapsed", function(momentApi){
+			return function(data){
+				return momentApi(data).fromNow();
+			}
+		})
 	</script>
 </head>
 <body ng-app="bugTrackerApp">
@@ -145,6 +171,7 @@
 					<span ng-class="{closed : bug.isClosed}"  class="bugname" ng-click="toggleBug(bug)">
 						{{bug.name | trimText:20}}
 					</span>
+					<span class="datetime">{{bug.createdAt | elapsed}}</span>
 				</li>
 			</ol>
 		</section>
