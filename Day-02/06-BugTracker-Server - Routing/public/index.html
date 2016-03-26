@@ -85,6 +85,10 @@
 					templateUrl : 'templates/newBug.html',
 					controller : 'newBugController'
 				})
+				.when("/details/:id", {
+					templateUrl : 'templates/details.html',
+					controller : 'bugDetailsController'
+				})
 				.otherwise({
 					redirectTo : '/list'
 				});
@@ -118,6 +122,14 @@
 					});
 			};
 
+			this.getById = function(id){
+				return $http
+					.get("http://localhost:3000/bugs/" + id)
+					.then(function(response){
+						return response.data;
+					});	
+			};
+
 			this.addNew = function(newBug){
 				return $http
 					.post("http://localhost:3000/bugs", newBug)
@@ -138,7 +150,16 @@
 			}
 		})
 
+		bugTrackerApp.controller("bugDetailsController", function($scope, bugService, $routeParams, $location){
+			var bugId = parseInt($routeParams.id);
+			bugService.getById(bugId).then(function(bug){
+				$scope.bug = bug;
+			});
 
+			$scope.cancel = function(){
+				$location.path('#/list');
+			};
+		})
 		bugTrackerApp.controller("bugsController", function($scope, bugOperations, bugService){
 			$scope.bugs = [];
 			
@@ -158,18 +179,18 @@
 						$scope.bugs.splice(i,1);
 					}
 			};
-			
-
-			
 		});
 
 		bugTrackerApp.controller('newBugController', function($scope, bugService, bugOperations, $location){
 			$scope.addNew = function(newBugName){
 				bugService.addNew(bugOperations.create(0, newBugName)).then(function(bug){
-					//$scope.bugs.push(bug);
 					$location.path('#/list');
 				});
 				
+			};
+
+			$scope.cancel = function(){
+				$location.path('#/list');
 			};
 		
 		})
